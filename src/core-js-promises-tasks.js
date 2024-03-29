@@ -17,8 +17,13 @@
  * 0    => promise that will be fulfilled
  * 1    => promise that will be fulfilled
  */
-function getPromise(/* number */) {
-  throw new Error('Not implemented');
+async function getPromise(number) {
+  await new Promise((resolve, reject) => {
+    if (number >= 0) {
+      resolve(true);
+    }
+    reject(new Error('Number is negative'));
+  });
 }
 
 /**
