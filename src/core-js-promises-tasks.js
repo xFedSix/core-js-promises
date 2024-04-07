@@ -56,12 +56,13 @@ function getPromiseResult(source) {
  * [Promise.reject(1), Promise.reject(2), Promise.reject(3)]    => Promise rejected
  */
 function getFirstResolvedPromiseResult(promises) {
-  const validPromises = promises.map((p) => p.catch(() => undefined));
-  return Promise.race(validPromises).then((res) => {
-    if (res === undefined) {
-      throw new Error('All promises were rejected');
-    }
-    return res;
+  return new Promise((resolve, reject) => {
+    promises.forEach((promise) => {
+      Promise.resolve(promise)
+        .then(resolve)
+        .catch(() => {});
+    });
+    Promise.all(promises).catch(reject);
   });
 }
 
