@@ -67,7 +67,7 @@ function getFirstResolvedPromiseResult(promises) {
 }
 
 /**
- * Returns containing the value of the first promise of a resolved or a rejected.
+ * Write Returns containing the value of the first promise of a resolved or a rejected.
  *
  * @param {Array<Promise<number>>} promises
  * @return {Promise<number>}
@@ -85,8 +85,15 @@ function getFirstResolvedPromiseResult(promises) {
  * [promise3, promise6, promise2] => Promise rejected with 2
  * [promise3, promise4, promise6] => Promise rejected with 6
  */
-function getFirstPromiseResult(/* promises */) {
-  throw new Error('Not implemented');
+function getFirstPromiseResult(promises) {
+  return new Promise((resolve, reject) => {
+    promises.forEach((promise) => {
+      Promise.resolve(promise)
+        .then(resolve)
+        .catch(() => {});
+    });
+    Promise.all(promises).catch(reject);
+  });
 }
 
 /**
