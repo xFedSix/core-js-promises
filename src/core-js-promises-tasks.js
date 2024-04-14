@@ -67,7 +67,7 @@ function getFirstResolvedPromiseResult(promises) {
 }
 
 /**
- * Write Returns containing the value of the first promise of a resolved or a rejected.
+ * Returns containing the value of the first promise of a resolved or a rejected.
  *
  * @param {Array<Promise<number>>} promises
  * @return {Promise<number>}
@@ -107,8 +107,10 @@ function getFirstPromiseResult(promises) {
  * [Promise.resolve(1), Promise.resolve(2), Promise.resolve(3)] => Promise fulfilled with [1, 2, 3]
  * [Promise.resolve(1), Promise.reject(2), Promise.resolve(3)] => Promise rejected with 2
  */
-function getAllOrNothing(/* promises */) {
-  throw new Error('Not implemented');
+function getAllOrNothing(promises) {
+  return Promise.all(promises)
+    .then((results) => results)
+    .catch((error) => Promise.reject(error));
 }
 
 /**
